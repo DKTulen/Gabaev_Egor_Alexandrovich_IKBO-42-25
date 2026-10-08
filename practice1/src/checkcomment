@@ -1,0 +1,16 @@
+#!/bin/bash
+
+dir="${1:-.}"
+
+find "$dir" -type f \( -name '*.c' -o -name '*.js' -o -name '*.py' \) | while IFS= read -r file; do
+    first=$(head -n 1 "$file")
+    case "$file" in
+        *.c|*.js) pattern='^[[:space:]]*(//|/\*)' ;;
+        *.py)     pattern='^[[:space:]]*#' ;;
+    esac
+    if echo "$first" | grep -qE "$pattern"; then
+        echo "ЕСТЬ комментарий: $file"
+    else
+        echo "НЕТ комментария:  $file"
+    fi
+done

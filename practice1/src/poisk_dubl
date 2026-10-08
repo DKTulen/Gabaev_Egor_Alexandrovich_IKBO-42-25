@@ -1,0 +1,16 @@
+#!/bin/bash
+
+dir="${1:-.}"
+
+find "$dir" -type f -exec shasum {} + | awk '
+{
+    hash = $1
+    name = substr($0, 43)
+    count[hash]++
+    files[hash] = files[hash] "\n    " name
+}
+END {
+    for (h in count)
+        if (count[h] > 1)
+            print "Одинаковое содержимое:" files[h] "\n"
+}'

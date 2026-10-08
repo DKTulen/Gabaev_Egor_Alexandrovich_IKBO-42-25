@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [ $# -ne 2 ]; then
+    echo "Использование: $0 входной_файл выходной_файл"
+    exit 1
+fi
+
+tab=$(printf '\t')
+sed "s/    /$tab/g" "$1" > "$2"

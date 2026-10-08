@@ -1,0 +1,16 @@
+#!/bin/bash
+
+if [ $# -ne 1 ]; then
+    echo "Использование: $0 имя_файла"
+    exit 1
+fi
+
+if [ ! -f "$1" ]; then
+    echo "Файл $1 не найден"
+    exit 1
+fi
+
+chmod 755 "$1"
+sudo mkdir -p /usr/local/bin
+sudo cp "$1" /usr/local/bin/
+echo "Команда $(basename "$1") установлена"
