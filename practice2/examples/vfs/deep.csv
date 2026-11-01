@@ -1,0 +1,11 @@
+path,type,content
+/,dir,
+/motd,file,0JPQu9GD0LHQvtC60LDRjyBWRlMgKDQg0YPRgNC+0LLQvdGPKQ==
+/home,dir,
+/home/user,dir,
+/home/user/docs,dir,
+/home/user/docs/work/report.txt,file,cmVwb3J0IGxpbmUgMQpyZXBvcnQgbGluZSAy
+/home/user/docs/todo.txt,file,YnV5IG1pbGs=
+/home/user/pics,dir,
+/home/user/pics/cat.bin,file,/9j/4A==
+/etc/config/app/settings.ini,file,W21haW5dCmtleT12YWx1ZQ==
