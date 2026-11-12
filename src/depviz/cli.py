@@ -14,6 +14,7 @@ DEFAULT_CONFIG = "config.yaml"
 INTERRUPTED_CODE = 130
 COMMANDS = {
     "params": "cmd_params",
+    "direct": "cmd_direct",
 }
 
 

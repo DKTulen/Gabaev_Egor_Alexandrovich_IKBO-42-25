@@ -12,6 +12,7 @@ from .yaml_config import parse_simple_yaml
 
 MODES = (
     "params",
+    "direct",
 )
 REMOTE_MODE = "remote"
 TEST_MODE = "test"
