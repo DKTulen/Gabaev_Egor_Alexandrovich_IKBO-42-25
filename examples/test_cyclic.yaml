@@ -1,0 +1,8 @@
+# Пример: граф с циклом
+mode: visualize
+package_name: A
+repository: tests/data/cyclic.txt
+repo_mode: test
+max_depth: 5
+dot_file: out/cyclic.dot
+image_file: out/cyclic.png

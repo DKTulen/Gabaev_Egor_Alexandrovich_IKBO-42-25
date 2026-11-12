@@ -1,0 +1,9 @@
+# Пример: настоящий пакет serde_json из crates.io
+mode: visualize
+package_name: serde_json
+package_version: 1.0.120
+repository: https://index.crates.io
+repo_mode: remote
+max_depth: 3
+dot_file: out/serde_json.dot
+image_file: out/serde_json.png

@@ -1,0 +1,6 @@
+# Пример: прямые зависимости пакета C (этап 2)
+mode: direct
+package_name: C
+repository: tests/data/acyclic.txt
+repo_mode: test
+max_depth: 3
