@@ -7,7 +7,7 @@ from pathlib import Path
 from depviz.dot import graph_to_dot, quote
 from depviz.graph import build_graph, find_cycle_edges
 from depviz.sources import TestSource
-from depviz.svg import graph_to_svg
+from depviz.svg import graph_to_svg, svg_edge
 
 DATA = Path(__file__).resolve().parent / "data"
 
@@ -42,6 +42,13 @@ class VisualTests(unittest.TestCase):
         tag = "{http://www.w3.org/2000/svg}text"
         texts = [item.text for item in root.iter(tag)]
         self.assertEqual(sorted(texts), ["A", "B", "C", "D", "E", "F"])
+
+    def test_back_edge(self) -> None:
+        """Ребро назад и петля идут дугой под узлами, а не поверх них."""
+        back = svg_edge((300, 30), (30, 30), True)
+        self.assertIn("C395,119 125,119 125,64", back)
+        loop = svg_edge((30, 30), (30, 30), True)
+        self.assertIn("M103,64 C103,119 147,119 147,64", loop)
 
 
 if __name__ == "__main__":

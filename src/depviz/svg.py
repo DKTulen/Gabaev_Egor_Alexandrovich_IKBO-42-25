@@ -13,6 +13,8 @@ GAP_X = 90
 GAP_Y = 24
 MARGIN = 30
 BEND = 60
+LOOP_DROP = 55
+LOOP_SHIFT = 22
 Point = Tuple[int, int]
 HEADER = (
     '<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}">\n'
@@ -53,12 +55,29 @@ def svg_node(label: str, point: Point, is_root: bool) -> str:
     return rect + text + "\n"
 
 
-def svg_edge(start: Point, end: Point, is_cycle: bool) -> str:
-    """SVG-код изогнутой стрелки от узла start к узлу end."""
+def forward_curve(start: Point, end: Point) -> str:
+    """Кривая от правой стороны узла start к левой стороне узла end."""
     x1, y1 = start[0] + BOX_W, start[1] + BOX_H // 2
     x2, y2 = end[0], end[1] + BOX_H // 2
+    return f"M{x1},{y1} C{x1 + BEND},{y1} {x2 - BEND},{y2} {x2},{y2}"
+
+
+def back_curve(start: Point, end: Point) -> str:
+    """Дуга под узлами: так ребро назад не прячется за прямоугольниками."""
+    x1 = start[0] + BOX_W // 2
+    x2 = end[0] + BOX_W // 2
+    if x1 == x2:
+        x1, x2 = x1 - LOOP_SHIFT, x2 + LOOP_SHIFT
+    y1, y2 = start[1] + BOX_H, end[1] + BOX_H
+    low = max(y1, y2) + LOOP_DROP
+    return f"M{x1},{y1} C{x1},{low} {x2},{low} {x2},{y2}"
+
+
+def svg_edge(start: Point, end: Point, is_cycle: bool) -> str:
+    """SVG-код стрелки от узла start к узлу end."""
+    backward = end[0] <= start[0]
+    curve = back_curve(start, end) if backward else forward_curve(start, end)
     color = "red" if is_cycle else "#555"
-    curve = f"M{x1},{y1} C{x1 + BEND},{y1} {x2 - BEND},{y2} {x2},{y2}"
     marker = "arrow-red" if is_cycle else "arrow"
     return (
         f'<path d="{curve}" fill="none" stroke="{color}" '
@@ -70,6 +89,7 @@ def canvas_size(positions: Dict[str, Point]) -> Point:
     """Ширина и высота картинки по самым дальним узлам."""
     width = max(x for x, _ in positions.values()) + BOX_W + MARGIN
     height = max(y for _, y in positions.values()) + BOX_H + MARGIN
+    height += LOOP_DROP
     return width, height
 
 
