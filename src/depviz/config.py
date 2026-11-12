@@ -15,6 +15,7 @@ MODES = (
     "direct",
     "graph",
     "reverse",
+    "visualize",
 )
 REMOTE_MODE = "remote"
 TEST_MODE = "test"

@@ -17,6 +17,7 @@ COMMANDS = {
     "direct": "cmd_direct",
     "graph": "cmd_graph",
     "reverse": "cmd_reverse",
+    "visualize": "cmd_visualize",
 }
 
 
