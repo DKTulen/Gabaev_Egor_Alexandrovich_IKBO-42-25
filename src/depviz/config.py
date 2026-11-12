@@ -14,6 +14,7 @@ MODES = (
     "params",
     "direct",
     "graph",
+    "reverse",
 )
 REMOTE_MODE = "remote"
 TEST_MODE = "test"

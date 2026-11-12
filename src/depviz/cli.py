@@ -16,6 +16,7 @@ COMMANDS = {
     "params": "cmd_params",
     "direct": "cmd_direct",
     "graph": "cmd_graph",
+    "reverse": "cmd_reverse",
 }
 
 
