@@ -1,0 +1,7 @@
+# Пример: обратные зависимости пакета D
+mode: reverse
+package_name: A
+reverse_target: D
+repository: tests/data/complex.txt
+repo_mode: test
+max_depth: 5

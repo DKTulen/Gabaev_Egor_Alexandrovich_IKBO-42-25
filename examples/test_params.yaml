@@ -1,0 +1,6 @@
+# Пример: показать все настройки (этап 1)
+mode: params
+package_name: A
+repository: tests/data/acyclic.txt
+repo_mode: test
+max_depth: 3

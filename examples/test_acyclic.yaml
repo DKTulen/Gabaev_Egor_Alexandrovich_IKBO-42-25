@@ -1,0 +1,8 @@
+# Пример: тестовый репозиторий без циклов
+mode: graph
+package_name: A
+repository: tests/data/acyclic.txt
+repo_mode: test
+max_depth: 5
+dot_file: out/acyclic.dot
+image_file: out/acyclic.png

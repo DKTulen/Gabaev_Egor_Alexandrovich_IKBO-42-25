@@ -1,0 +1,9 @@
+# Пример: пакет regex
+mode: visualize
+package_name: regex
+package_version: 1.10.5
+repository: https://index.crates.io
+repo_mode: remote
+max_depth: 3
+dot_file: out/regex.dot
+image_file: out/regex.png
