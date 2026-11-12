@@ -13,6 +13,7 @@ from .yaml_config import parse_simple_yaml
 MODES = (
     "params",
     "direct",
+    "graph",
 )
 REMOTE_MODE = "remote"
 TEST_MODE = "test"
@@ -25,7 +26,7 @@ VERSION_RE = re.compile(r"^\d+\.\d+\.\d+(?:[-+][0-9A-Za-z.+-]+)?$")
 TRUE_WORDS = ("true", "yes", "on")
 FALSE_WORDS = ("false", "no", "off")
 REQUIRED_KEYS = ("package_name", "repository", "repo_mode", "max_depth")
-DEFAULT_MODE = "params"
+DEFAULT_MODE = "graph"
 DEFAULT_DOT = "out/graph.dot"
 DEFAULT_IMAGE = "out/graph.png"
 

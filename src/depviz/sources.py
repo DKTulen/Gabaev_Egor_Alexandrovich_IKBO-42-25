@@ -1,11 +1,13 @@
-"""Источники данных о зависимостях: реальный индекс Cargo."""
+"""Источники данных о зависимостях: реальный индекс Cargo и тестовый файл."""
 
 from __future__ import annotations
 
-from typing import List, Tuple
+from typing import Dict, List, Tuple
 
 from .cargo_index import CargoIndex
-from .config import Config
+from .config import TEST_MODE, Config
+from .errors import RepositoryError
+from .test_repo import load_test_repo
 
 NODE_SEPARATOR = " "
 
@@ -41,8 +43,29 @@ class CargoSource:
         return children
 
 
+class TestSource:
+    """Источник данных: тестовый файл с графом."""
+
+    __test__ = False
+
+    def __init__(self, path: str, root: str) -> None:
+        """Загружает файл и проверяет, что корневой пакет в нём есть."""
+        self.repo: Dict[str, List[str]] = load_test_repo(path)
+        known = set(self.repo)
+        known.update(dep for deps in self.repo.values() for dep in deps)
+        if root not in known:
+            raise RepositoryError(f"пакет {root} не найден в {path}")
+        self.root = root
+
+    def neighbors(self, node: str) -> List[str]:
+        """Прямые зависимости узла (для неописанных пакетов — пусто)."""
+        return list(self.repo.get(node, []))
+
+
 def make_source(config: Config):
     """Создаёт источник данных в соответствии с настройками."""
+    if config.repo_mode == TEST_MODE:
+        return TestSource(config.repository, config.package_name)
     return CargoSource(
         config.repository, config.package_name, config.package_version
     )
