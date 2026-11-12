@@ -23,19 +23,19 @@ class QuietHandler(SimpleHTTPRequestHandler):
 class IndexTests(unittest.TestCase):
     """Проверки CargoIndex и CargoSource."""
 
-    @classmethod
-    def setUpClass(cls) -> None:
+    def set_up(self) -> None:
         """Запускает локальный сервер с поддельным индексом."""
         handler = functools.partial(QuietHandler, directory=str(INDEX_DIR))
-        cls.server = HTTPServer(("127.0.0.1", 0), handler)
-        cls.url = f"http://127.0.0.1:{cls.server.server_port}"
-        threading.Thread(target=cls.server.serve_forever, daemon=True).start()
+        self.server = HTTPServer(("127.0.0.1", 0), handler)
+        self.url = f"http://127.0.0.1:{self.server.server_port}"
+        threading.Thread(
+            target=self.server.serve_forever, daemon=True
+        ).start()
 
-    @classmethod
-    def tearDownClass(cls) -> None:
+    def tear_down(self) -> None:
         """Останавливает сервер."""
-        cls.server.shutdown()
-        cls.server.server_close()
+        self.server.shutdown()
+        self.server.server_close()
 
     def test_index_path(self) -> None:
         """Схема папок индекса для имён разной длины."""
@@ -46,12 +46,15 @@ class IndexTests(unittest.TestCase):
 
     def test_resolve(self) -> None:
         """Берётся новая версия, но не пре-релиз, не отозванная и не 2.x."""
+        self.set_up()  # <--- ДОБАВИЛИ ЗАПУСК СЕРВЕРА
         index = CargoIndex(self.url)
         self.assertEqual(str(index.resolve("libx", "^1.0").version), "1.2.0")
         self.assertEqual(str(index.exact("libx", "2.0.0").version), "2.0.0")
+        self.tear_down()  # <--- ОСТАНОВИЛИ СЕРВЕР
 
     def test_errors(self) -> None:
         """Нет пакета, нет версии, нет подходящей версии."""
+        self.set_up()  # <--- ДОБАВИЛИ ЗАПУСК СЕРВЕРА
         index = CargoIndex(self.url)
         with self.assertRaises(RepositoryError):
             index.versions("nothing")
@@ -59,6 +62,7 @@ class IndexTests(unittest.TestCase):
             index.exact("libx", "9.9.9")
         with self.assertRaises(RepositoryError):
             index.resolve("libx", "^7.0")
+        self.tear_down()  # <--- ОСТАНОВИЛИ СЕРВЕР
 
     def test_server_down(self) -> None:
         """Недоступный сервер — понятная ошибка, а не падение."""
@@ -67,9 +71,11 @@ class IndexTests(unittest.TestCase):
 
     def test_source(self) -> None:
         """Прямые зависимости app: dev и необязательные пропущены."""
+        self.set_up()  # <--- ДОБАВИЛИ ЗАПУСК СЕРВЕРА
         source = CargoSource(self.url, "app", "1.0.0")
         found = source.neighbors(source.root)
         self.assertEqual(found, ["libx 1.2.0", "liby 0.2.5"])
+        self.tear_down()  # <--- ОСТАНОВИЛИ СЕРВЕР
 
 
 if __name__ == "__main__":

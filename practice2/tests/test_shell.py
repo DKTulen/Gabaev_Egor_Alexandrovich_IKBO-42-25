@@ -8,7 +8,7 @@ from vfs import VFS
 class ShellTest(unittest.TestCase):
     """Проверки Shell.execute."""
 
-    def setUp(self):
+    def set_up(self):
         self.shell = Shell(VFS())
 
     def test_ls_stub(self):

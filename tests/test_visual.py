@@ -1,7 +1,7 @@
 """Тесты описания Graphviz и SVG (этап 5)."""
 
 import unittest
-import xml.etree.ElementTree as ET
+import xml.etree.ElementTree as element_tree
 from pathlib import Path
 
 from depviz.dot import graph_to_dot, quote
@@ -38,7 +38,7 @@ class VisualTests(unittest.TestCase):
     def test_svg(self) -> None:
         """SVG — корректный XML с узлом для каждого пакета."""
         graph, cyclic = prepare("acyclic.txt")
-        root = ET.fromstring(graph_to_svg(graph, cyclic))
+        root = element_tree.fromstring(graph_to_svg(graph, cyclic))
         tag = "{http://www.w3.org/2000/svg}text"
         texts = [item.text for item in root.iter(tag)]
         self.assertEqual(sorted(texts), ["A", "B", "C", "D", "E", "F"])
