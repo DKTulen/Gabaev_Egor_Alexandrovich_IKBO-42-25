@@ -1,0 +1,11 @@
+# Пример полной конфигурации (скопируйте в config.yaml)
+package_name: A
+repository: tests/data/acyclic.txt
+repo_mode: test
+package_version: 1.0.0
+max_depth: 3
+mode: graph
+reverse_target: D
+dot_file: out/graph.dot
+image_file: out/graph.png
+show_image: true
